@@ -57,6 +57,7 @@ async function run() {
     const serviceCollection = client.db("geniusCar").collection("services");
     const orderCollection = client.db("geniusCar").collection("orders");
     const productsCollection = client.db("geniusCar").collection("products");
+    const teamCollection = client.db("geniusCar").collection("team");
 
     // jwt
     app.post("/jwt", (req, res) => {
@@ -70,8 +71,6 @@ async function run() {
     });
     // Services
     app.get("/ourservices", async (req, res) => {
-      const sort = req.query.sort;
-      const search = req.query.search;
       const query = {};
 
       const cursor = serviceCollection.find(query);
@@ -107,6 +106,14 @@ async function run() {
     app.get("/products", async (req, res) => {
       const query = {};
       const cursor = productsCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    //team
+    app.get("/team", async (req, res) => {
+      const query = {};
+      const cursor = teamCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
